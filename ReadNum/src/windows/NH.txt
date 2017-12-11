@@ -1,7 +1,1 @@
-<<<<<<< HEAD
 TT£¡£¡£¡
-=======
-RR£¡£¡£¡
-
-New branch
->>>>>>> 9dc54824536caa95a21c61eca11cf0da1fa79127
