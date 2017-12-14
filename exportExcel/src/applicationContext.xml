@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="
+	    http://www.springframework.org/schema/beans
+	    http://www.springframework.org/schema/beans/spring-beans.xsd
+	    http://www.springframework.org/schema/aop
+	    http://www.springframework.org/schema/aop/spring-aop.xsd
+	    http://www.springframework.org/schema/tx
+	    http://www.springframework.org/schema/tx/spring-tx.xsd
+	    http://www.springframework.org/schema/context
+	    http://www.springframework.org/schema/context/spring-context.xsd">
+ 
+<!--
+***************************以下部分是实体类的生成*********************************
+-->
+	
+<!--
+******************************AOP实现事务管理******************************************
+-->
+<!-- 引入jdbc.properties文件中的内容 -->
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="classpath:jdbc.properties" />
+	</bean>
+	
+<!-- 创建能生成dbcp2数据库连接池中的BasicDataSource类的实例的bean标签  -->
+    <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+		<property name="driverClassName" value="${driverClassName}" ></property>
+		<property name="url" value="${url}" ></property>
+		<property name="username" value="${username}" ></property>
+		<property name="password" value="${password}" ></property>
+	</bean>
+    
+<!-- 创建数据库事务管理类 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager" >
+		<!-- 依赖数据源 -->
+		<property name="dataSource" ref="dataSource" ></property>
+	</bean>
+    
+<!-- 定义事务的通知 -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="*" isolation="DEFAULT" rollback-for="java.lang.Exception" />
+		</tx:attributes>
+	</tx:advice>
+    
+<!-- 定义切面和切入点，引入事务通知 -->
+    <aop:config>
+		<aop:pointcut expression="execution(* com.*.*(..))" id="pointcut" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="pointcut" />
+	</aop:config>
+    
+<!-- 将数据庫连接信息和mybatis配置整合到一起 -->
+    <bean id = "sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+    	<property name="dataSource" ref="dataSource"></property>
+    	<!-- mybatis交给Spring处理 -->
+    	<property name="configLocation" value="classpath:mybatis-config.xml"></property>
+    </bean>
+    
+<!--
+******************************引入外部xml配置******************************************
+-->   
+    <import resource="com/config/xml/spring/Dao_spring.xml" />
+    <import resource="com/config/xml/spring/ServiceImpl_spring.xml" />
+
+<!--
+*****************************关于文件上传的配置******************************************
+--> 
+    <!-- 启动Spring MVC的注解功能，完成请求和注解POJO的映射 -->  
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" lazy-init="false" />  
+    <!-- 另外最好还要加入DefaultAnnotationHandlerMapping，不然会被 XML或其它的映射覆盖！ -->  
+    <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />    
+    <!-- 支持上传文件 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
+
+</beans>
+	

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tool.export.excel.dao.FileDAO">
+
+	<resultMap  type   ="file"    id      ="fileMap"    >
+		<id     column ="id"        property="id"        />
+		<result column ="file_name" property="fileName"    />
+		<result column ="save_name" property="saveName"      />
+		<result column ="file_size" property="fileSize"    />
+		<result column ="address"   property="address"    />
+		<result column ="type"      property="type"     />
+		<result column ="user_id"   property="userId"     />
+		<result column ="date"      property="date"     />
+	</resultMap>
+	
+	<!-- 增加文件信息  -->
+	<insert id="create" parameterType="file" >
+		<![CDATA[
+			INSERT INTO `bs_file`(id,file_name,save_name,file_size,address,type,user_id,date)
+			VALUES(#{id},#{fileName},#{saveName},#{fileSize},#{address},#{type},#{userId},#{date})
+		]]>
+	</insert>
+	
+	<!-- 删除文件信息  -->
+	<delete id="delete" parameterType="file" >
+		<![CDATA[
+			DELETE FROM `bs_file` WHERE id=#{id}
+		]]>
+	</delete>
+	
+	<!-- 将文件所有者变为空 -->
+	<update id="updateForUserId" parameterType="file" >
+		<![CDATA[
+			UPDATE `bs_file` 
+			SET user_id= '' 
+			WHERE user_id=#{userId}
+		]]>
+	</update>
+	
+	<!-- 根据主键查询指定记录 -->
+	<select id="findById" parameterType="file" resultMap="fileMap">
+		<![CDATA[
+			SELECT * FROM `bs_file` WHERE id=#{id}
+		]]>
+	</select>
+	
+	<!-- 根据主键查询指定记录 -->
+	<select id="queryByBookId" parameterType="file" resultMap="fileMap">
+		<![CDATA[
+			SELECT * FROM `bs_file` WHERE id=
+			(SELECT file_id FROM `bs_book` WHERE id=#{bookId})
+		]]>
+	</select>
+	
+</mapper>
