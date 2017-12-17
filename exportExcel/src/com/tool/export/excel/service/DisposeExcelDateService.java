@@ -41,7 +41,7 @@ public class DisposeExcelDateService {
 		Map<String,Object> box5 = new HashMap<String, Object>();
 		box5.put("showName","³ö³¡±àºÅ");
 		box5.put("trueName","ccbh");
-		box5.put("width",50);
+		box5.put("width",30);
 		colNameDetails.put("5",box5);
 		
 		Map<String,Object> box6 = new HashMap<String, Object>();

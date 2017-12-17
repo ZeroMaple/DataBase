@@ -89,16 +89,19 @@ public class ExportExcelService {
 			}
 
 			// 主要数据
-			for (Map<String, Object> info : content) {
-				HSSFRow row = sheet.createRow(nowRow++);
-				row.setHeight((short) (19 * 20));
-				for (int i = 1; i <= colSize; i++) {
-					HSSFCell cell = row.createCell(i-1);
-					cell.setCellStyle(contentCellStyle);
-					Map<String, Object> titieValueDetail = secondTitleDetails
-							.get(i + "");
-					String key = titieValueDetail.get("trueName") + "";
-					cell.setCellValue(info.get(key) + "");
+			if(content!=null&&content.size()>0){
+				for (int x=1,len_x=content.size();x<=len_x;x++) {
+					Map<String, Object> info = content.get(x-1);
+					info.put("num",x);
+					HSSFRow row = sheet.createRow(nowRow++);
+					row.setHeight((short) (19 * 20));
+					for (int i = 1; i <= colSize; i++) {
+						HSSFCell cell = row.createCell(i-1);
+						cell.setCellStyle(contentCellStyle);
+						Map<String, Object> titieValueDetail = secondTitleDetails.get(i + "");
+						String key = titieValueDetail.get("trueName") + "";
+						cell.setCellValue(info.get(key) ==null ? "" : info.get(key)+"");
+					}
 				}
 			}
 		}

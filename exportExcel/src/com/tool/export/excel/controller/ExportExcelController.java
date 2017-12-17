@@ -1,6 +1,7 @@
 package com.tool.export.excel.controller;
 
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,8 +26,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.tool.export.excel.dto.TzDTO;
 import com.tool.export.excel.service.DisposeExcelDateService;
 import com.tool.export.excel.service.ExportExcelService;
+import com.tool.export.excel.service.TzService;
 
 /**
  * 导出设备信息到excel表格
@@ -37,6 +40,8 @@ import com.tool.export.excel.service.ExportExcelService;
 public class ExportExcelController {
 
 	@Autowired
+	private TzService tzService;
+	@Autowired
 	private ExportExcelService exportExcelService;
 	@Autowired
 	private DisposeExcelDateService disposeExcelDateService;
@@ -46,24 +51,21 @@ public class ExportExcelController {
 	 */
 	@RequestMapping("tz")
 	public void export(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String titleName = request.getParameter("titleName");
+		String beginTime = request.getParameter("beginTime");
+		String endTime = request.getParameter("endTime");
 		String browserTypeIsFireFox = request.getParameter("browserTypeIsFireFox");
 		
-		String titleName = "XXX台帐.xls";
+		String cs = new String(titleName.getBytes("ISO-8859-1"),"utf-8");
+		
+		titleName += ".xls";
 		response.setContentType("application/x-xls");
-		if(browserTypeIsFireFox!=null && browserTypeIsFireFox.equals("1")){
-			response.setHeader("Content-Disposition", "attachment;filename=" + new String(titleName.getBytes(),"ISO8859-1"));
-		}else{
-			response.setHeader("Content-Disposition", "attachment;filename=" + java.net.URLEncoder.encode(titleName,"UTF-8"));
-		}
+		response.setHeader("Content-Disposition", "attachment;filename=" + titleName);
+		
 		OutputStream outPut = response.getOutputStream();
 		
-		List<Map<String, Object>> content = new ArrayList<Map<String,Object>>();
-		Map<String, Object> test = new HashMap<String, Object>();
-		test.put("num",1);
-		content.add(test);
-		Map<String, Object> test2 = new HashMap<String, Object>();
-		test2.put("num",2);
-		content.add(test2);
+		List<Map<String, Object>> content = tzService.selectByDate(beginTime, endTime);
+		
 		exportExcelService.exportExcelForOnePage(outPut, titleName,disposeExcelDateService.getTZColName(),content);
 		outPut.flush();
 		outPut.close();

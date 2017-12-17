@@ -6,11 +6,11 @@
 <configuration>
 
 	<typeAliases>
-		<typeAlias alias="file"        type="com.tool.export.excel.dto.FileDTO" />
+		<typeAlias alias="tz" type="com.tool.export.excel.dto.TzDTO" />
 	</typeAliases>
 
 	<mappers>
-		<mapper resource="com/config/xml/mapper/FileMapper.xml" />
+		<mapper resource="com/config/xml/mapper/TzMapper.xml" />
 	</mappers>
   
 </configuration>

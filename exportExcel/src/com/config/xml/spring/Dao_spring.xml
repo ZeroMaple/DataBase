@@ -18,8 +18,8 @@
 <!-- mapperInterface内填入某个dao接口的具体地址-->
 
 	<!-- 文件表操作类 -->
-    <bean id = "fileDAO" class="org.mybatis.spring.mapper.MapperFactoryBean">
-    	<property name="mapperInterface" value="com.tool.export.excel.dao.FileDAO"></property>
+    <bean id = "tzDAO" class="org.mybatis.spring.mapper.MapperFactoryBean">
+    	<property name="mapperInterface" value="com.tool.export.excel.dao.TzDAO"></property>
     	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
     </bean>
     
