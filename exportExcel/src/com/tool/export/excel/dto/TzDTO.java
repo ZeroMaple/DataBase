@@ -4,37 +4,37 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TzDTO {
-	
-	//Ö÷¼ü
+
+	//ä¸»é”®
 	private String id;
-	//ËÍ¼ìµ¥Î»
+	//é€æ£€å•ä½
 	private String sjdw;
-	//ÖÆÔì³§
+	//åˆ¶é€ å‚
 	private String zzc;
-	//ĞÍºÅ¹æ¸ñ
+	//å‹å·è§„æ ¼
 	private String xhgg;
-	//³ö³¡±àºÅ
+	//å‡ºåœºç¼–å·
 	private String ccbh;
-	//×¼È·¶ÈµÈ¼¶
+	//å‡†ç¡®åº¦ç­‰çº§
 	private String jqddj;
-	//Æ÷¾ßÃû³Æ
+	//å™¨å…·åç§°
 	private String qjmc;
-	//×î´ó³ÆÁ¿(µ¥Î»¿Ë)
+	//æœ€å¤§ç§°é‡(å•ä½å…‹)
 	private String zdcl;
-	//×îĞ¡³ÆÁ¿(µ¥Î»¿Ë)
+	//æœ€å°ç§°é‡(å•ä½å…‹)
 	private String zxcl;
-	//¼ì¶¨·ÖÖµ¶È
+	//æ£€å®šåˆ†å€¼åº¦
 	private String jdfzd;
-	//¼ì¶¨ÈÕÆÚ
+	//æ£€å®šæ—¥æœŸ
 	private String jdrq;
-	//±¸×¢
+	//å¤‡æ³¨
 	private String bz;
-	
-	
-	/** ±íÍâ×Ö¶Î*/
+
+
+	/** è¡¨å¤–å­—æ®µ*/
 	private String beginTime;
 	private String endTime;
-	
+
 	public String getId() {
 		return id;
 	}
@@ -110,9 +110,9 @@ public class TzDTO {
 	public void setBz(String bz) {
 		this.bz = bz;
 	}
-	
-	
-	
+
+
+
 	public String getBeginTime() {
 		return beginTime;
 	}
@@ -125,9 +125,9 @@ public class TzDTO {
 	public void setEndTime(String endTime) {
 		this.endTime = endTime;
 	}
-	
-	
-	
+
+
+
 	public Map<String,Object> toMap(){
 		Map<String,Object> returnMap = new HashMap<String, Object>();
 		returnMap.put("id",this.id);
@@ -144,5 +144,5 @@ public class TzDTO {
 		returnMap.put("bz",this.bz);
 		return returnMap;
 	}
-	
+
 }

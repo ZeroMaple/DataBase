@@ -11,14 +11,14 @@ import com.tool.export.excel.dao.TzDAO;
 import com.tool.export.excel.dto.TzDTO;
 
 public class TzService {
-	
+
 	TzDAO tzDAO;
-	
+
 	public TzService(){
 		ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 		tzDAO = context.getBean("tzDAO",TzDAO.class);
 	}
-	
+
 	public List<Map<String,Object>> selectByDate(String beginTime,String endTime){
 		TzDTO paramDTO = new TzDTO();
 		paramDTO.setBeginTime(beginTime);
@@ -30,8 +30,8 @@ public class TzService {
 				returnList.add(dto.toMap());
 			}
 		}
-		
+
 		return returnList;
 	}
-	
+
 }

@@ -32,8 +32,8 @@ import com.tool.export.excel.service.ExportExcelService;
 import com.tool.export.excel.service.TzService;
 
 /**
- * 导出设备信息到excel表格
- * 
+ * 瀵煎嚭璁惧淇℃伅鍒癳xcel琛ㄦ牸
+ *
  * @author NH
  */
 @Controller
@@ -45,9 +45,9 @@ public class ExportExcelController {
 	private ExportExcelService exportExcelService;
 	@Autowired
 	private DisposeExcelDateService disposeExcelDateService;
-	
+
 	/**
-	 * 导出台帐
+	 * 瀵煎嚭鍙板笎
 	 */
 	@RequestMapping("tz")
 	public void export(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -55,20 +55,20 @@ public class ExportExcelController {
 		String beginTime = request.getParameter("beginTime");
 		String endTime = request.getParameter("endTime");
 		String browserTypeIsFireFox = request.getParameter("browserTypeIsFireFox");
-		
+
 		String cs = new String(titleName.getBytes("ISO-8859-1"),"utf-8");
-		
+
 		titleName += ".xls";
 		response.setContentType("application/x-xls");
 		response.setHeader("Content-Disposition", "attachment;filename=" + titleName);
-		
+
 		OutputStream outPut = response.getOutputStream();
-		
+
 		List<Map<String, Object>> content = tzService.selectByDate(beginTime, endTime);
-		
+
 		exportExcelService.exportExcelForOnePage(outPut, titleName,disposeExcelDateService.getTZColName(),content);
 		outPut.flush();
 		outPut.close();
 	}
-	
+
 }

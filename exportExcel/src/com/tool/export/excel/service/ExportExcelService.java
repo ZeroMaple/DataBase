@@ -18,28 +18,28 @@ import org.springframework.stereotype.Service;
 public class ExportExcelService {
 
 	/**
-	 * µ¼³öexcelÎÄ¼ş ÊÊÓÃÓÚµ¥Ò³±í¸ñ,ÓĞÒ»¼¶±êÌâ£¬¶ş¼¶µÄÁĞÃû¹Ì¶¨µÄ
-	 * 
-	 * @param firstTitle Ò»¼¶±êÌâ
-	 * @param secondTitleDetails ¶ş¼¶±êÌâ£¨ÁĞÃû£©{orderNum={showName=,trueName=,width=}}
-	 * @param content ÄÚÈİ
+	 * å¯¼å‡ºexcelæ–‡ä»¶ é€‚ç”¨äºå•é¡µè¡¨æ ¼,æœ‰ä¸€çº§æ ‡é¢˜ï¼ŒäºŒçº§çš„åˆ—åå›ºå®šçš„
+	 *
+	 * @param firstTitle ä¸€çº§æ ‡é¢˜
+	 * @param secondTitleDetails äºŒçº§æ ‡é¢˜ï¼ˆåˆ—åï¼‰{orderNum={showName=,trueName=,width=}}
+	 * @param content å†…å®¹
 	 */
 	public void exportExcelForOnePage(OutputStream outPut, String firstTitle, Map<String, Map<String, Object>> secondTitleDetails, List<Map<String, Object>> content) throws Exception {
 		HSSFWorkbook wb = new HSSFWorkbook();
 		HSSFSheet sheet = wb.createSheet(firstTitle);
 		int colSize = secondTitleDetails.size();
 		if (colSize <= 0) {
-			// ´´½¨HSSFRow¶ÔÏó
+			// åˆ›å»ºHSSFRowå¯¹è±¡
 			HSSFRow row = sheet.createRow(3);
-			// ´´½¨HSSFCell¶ÔÏó
+			// åˆ›å»ºHSSFCellå¯¹è±¡
 			HSSFCell cell = row.createCell(3);
-			// ÉèÖÃµ¥Ôª¸ñµÄÖµ
-			cell.setCellValue("ÎŞÊı¾İ");
+			// è®¾ç½®å•å…ƒæ ¼çš„å€¼
+			cell.setCellValue("æ— æ•°æ®");
 		} else {
-			// ´´½¨ÑùÊ½
+			// åˆ›å»ºæ ·å¼
 			HSSFCellStyle titleCellStyle = wb.createCellStyle();
 			HSSFFont titleFontStyle = wb.createFont();
-			titleFontStyle.setFontName("ËÎÌå");
+			titleFontStyle.setFontName("å®‹ä½“");
 			titleFontStyle.setFontHeightInPoints((short) 18);
 			titleCellStyle.setFont(titleFontStyle);
 			titleCellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
@@ -49,7 +49,7 @@ public class ExportExcelService {
 
 			HSSFCellStyle secondTitleCellStyle = wb.createCellStyle();
 			HSSFFont secondTitleFontStyle = wb.createFont();
-			secondTitleFontStyle.setFontName("ËÎÌå");
+			secondTitleFontStyle.setFontName("å®‹ä½“");
 			secondTitleFontStyle.setFontHeightInPoints((short) 12);
 			secondTitleFontStyle.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
 			secondTitleCellStyle.setFont(secondTitleFontStyle);
@@ -58,15 +58,15 @@ public class ExportExcelService {
 
 			HSSFCellStyle contentCellStyle = wb.createCellStyle();
 			HSSFFont contentFontStyle = wb.createFont();
-			contentFontStyle.setFontName("ËÎÌå");
+			contentFontStyle.setFontName("å®‹ä½“");
 			contentFontStyle.setFontHeightInPoints((short) 11);
 			contentCellStyle.setFont(contentFontStyle);
 			contentCellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
 			contentCellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
 
-			int nowRow = 0;// ÏÖÔÚµÄĞĞÊı
+			int nowRow = 0;// ç°åœ¨çš„è¡Œæ•°
 
-			// Ò»¼¶±êÌâ
+			// ä¸€çº§æ ‡é¢˜
 			CellRangeAddress mergeCell = new CellRangeAddress(nowRow, nowRow, 0, colSize - 1);
 			sheet.addMergedRegion(mergeCell);
 			HSSFRow separatedRow = sheet.createRow(nowRow++);
@@ -75,7 +75,7 @@ public class ExportExcelService {
 			mergeFirstCell.setCellStyle(titleCellStyle);
 			mergeFirstCell.setCellValue(firstTitle);
 
-			// ¶ş¼¶±êÌâ
+			// äºŒçº§æ ‡é¢˜
 			HSSFRow secondTitle = sheet.createRow(nowRow++);
 			secondTitle.setHeight((short) (19 * 20));
 			for (int i = 1; i <= colSize; i++) {
@@ -88,7 +88,7 @@ public class ExportExcelService {
 				sheet.setColumnWidth(cell.getColumnIndex(), 256 * width);
 			}
 
-			// Ö÷ÒªÊı¾İ
+			// ä¸»è¦æ•°æ®
 			if(content!=null&&content.size()>0){
 				for (int x=1,len_x=content.size();x<=len_x;x++) {
 					Map<String, Object> info = content.get(x-1);
@@ -105,7 +105,7 @@ public class ExportExcelService {
 				}
 			}
 		}
-		// ¹¹½¨Íê±Ï¿ªÊ¼Êä³öÎÄ¼ş
+		// æ„å»ºå®Œæ¯•å¼€å§‹è¾“å‡ºæ–‡ä»¶
 		wb.write(outPut);
 	}
 
